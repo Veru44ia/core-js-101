@@ -45,7 +45,7 @@ function getJSON(obj) {
 }
 
 /**
- * obj
+ * Returns the object of specified type from JSON representation
  *
  * @param {Object} proto
  * @param {string} json
