@@ -8,7 +8,6 @@
  *                                                                                             *
  ********************************************************************************************* */
 
-
 /**
  * Returns the functions composition of two specified functions f(x) and g(x).
  * The result of compose is to be a function of one argument, (lets call the argument x),
@@ -27,7 +26,6 @@ function getComposition(f, g) {
   return (x) => f(g(x));
 }
 
-
 /**
  * Returns the math power function with the specified exponent
  *
@@ -45,9 +43,8 @@ function getComposition(f, g) {
  *
  */
 function getPowerFunction(exponent) {
-  return (x) => (x ** exponent);
+  return (x) => x ** exponent;
 }
-
 
 /**
  * Returns the polynom function of one argument based on specified coefficients.
@@ -62,10 +59,14 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...args) {
+  if (!args.length) {
+    return null;
+  }
+  return (x) => [...args]
+    .reverse()
+    .reduce((acc, curr, index) => acc + curr * x ** index, 0);
 }
-
 
 /**
  * Memoizes passed function and returns function
@@ -93,7 +94,6 @@ function memoize(func) {
   };
 }
 
-
 /**
  * Returns the function trying to call the passed function and if it throws,
  * retrying it specified number of attempts.
@@ -112,7 +112,6 @@ function memoize(func) {
 function retry(/* func, attempts */) {
   throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the logging wrapper for the specified method,
@@ -137,10 +136,15 @@ function retry(/* func, attempts */) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  return (...args) => {
+    const output = `${func.name}(${JSON.stringify(args).slice(1, -1)})`;
+    logFunc(`${output} starts`);
+    const res = func(...args);
+    logFunc(`${output} ends`);
+    return res;
+  };
 }
-
 
 /**
  * Return the function with partial applied arguments
@@ -158,7 +162,6 @@ function logger(/* func, logFunc */) {
 function partialUsingArguments(fn, ...args1) {
   return (..._arg) => fn(...args1, ..._arg);
 }
-
 
 /**
  * Returns the id generator function that returns next integer starting
